@@ -1,13 +1,19 @@
 const path = require('path');
 const http = require('http');
 const express = require('express');
-const socket_io = require('socket.io');
 
+const socket_io = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = socket_io(server);
 
+const pageRouter = require('./routes/pages');
+
+app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Routes
+app.use('/', pageRouter);
 
 
 io.on('connection', socket => {
@@ -19,17 +25,11 @@ io.on('connection', socket => {
         io.emit('message', 'A user has left the chat'); // Let everyone know
     })
 
-
-    // Listen for chat message
-
     socket.on('chat_message', message => {
         io.emit('message', message);
         // console.log(message);
     });
-
 });
-
-
 
 const PORT = 5000;
 
