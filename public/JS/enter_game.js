@@ -42,12 +42,12 @@ create_btn.addEventListener('click', async (e) => {
     const key_container = showKeyContainer(new_game.key);
     const input = key_container.children.game_key.children.game_key_input;
 
-    input.disabled = true;
-    // input.selectionStart = input.selectionEnd;
-    
-    // input.disabled = true;
-
-
-    // console.log(new_game);
-
+    // input.readonly = 'readonly';
+    input.readOnly = true;
+    input.addEventListener('click', (e) => {
+        e.target.select();
+        e.target.setSelectionRange(0, 99999)
+        document.execCommand("copy");
+    })
 });
+
