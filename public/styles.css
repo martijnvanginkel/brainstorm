@@ -35,7 +35,6 @@ body {
     font-weight: 100;
     color: #FFFFFF;
     font-size: 1.5em;
-    margin-bottom: 10px;
 }
 
 .index_btn {
@@ -47,10 +46,46 @@ body {
     border: 2px solid #FFFFFF;
     border-radius: 5px;
     font-size: 1em;
-    margin: 5px;
+    margin: 10px 0;
 }
 
 .index_btn:hover {
     background-color: #FFFFFF;
     color: #b19cd9;
+}
+
+#game_key {
+    display: flex;
+    margin: 5px 0;
+
+}
+
+#game_key_input {
+    border: 0;
+    outline: none;
+    border-radius: 5px 0 0 5px;
+    font-size: 1.25em;
+    user-select: none;
+    /* -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;       */
+    /* user-select: none; */
+}
+
+#play_game_btn {
+    background-color: #b19cd9;
+    color: #FFFFFF;
+    outline: none;
+    height: 100%;
+    border: 1px solid #FFFFFF;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    padding: 5px;
+}
+
+#key_description {
+    color: #FFFFFF;
+    vertical-align: text-top;
+    font-size: 0.6em;
+    margin-left: 2px;
 }

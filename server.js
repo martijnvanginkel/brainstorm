@@ -1,6 +1,7 @@
 const path = require('path');
 const http = require('http');
 const express = require('express');
+const mongoose = require('mongoose');
 
 const socket_io = require('socket.io');
 const app = express();
@@ -8,12 +9,17 @@ const server = http.createServer(app);
 const io = socket_io(server);
 
 const pageRouter = require('./routes/pages');
+const gameApiRouter = require('./routes/api/games');
+
+
+mongoose.connect('mongodb://localhost/brainstorm', { useNewUrlParser: true, useUnifiedTopology: true});
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/', pageRouter);
+app.use('/api/games', gameApiRouter);
 
 
 io.on('connection', socket => {
