@@ -2,6 +2,8 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
+
 
 const socket_io = require('socket.io');
 const app = express();
@@ -16,6 +18,8 @@ mongoose.connect('mongodb://localhost/brainstorm', { useNewUrlParser: true, useU
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
 
 // Routes
 app.use('/', pageRouter);

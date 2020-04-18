@@ -4,7 +4,6 @@
 }
 
 body {
-    /* height: 100%; */
     background-color: #b19cd9;
     padding: 5px;
     font-family: "montserrat";
@@ -12,14 +11,11 @@ body {
     overflow: hidden;
 }
 
-/* Header */
-
 .main_header {
     display: flex;
     justify-content: flex-end;
 }
 
-/* Index page */
 .index_container {
     position: absolute;
     width: 100%;
@@ -66,10 +62,6 @@ body {
     border-radius: 5px 0 0 5px;
     font-size: 1.25em;
     user-select: none;
-    /* -webkit-user-select: none;  
-    -moz-user-select: none;    
-    -ms-user-select: none;       */
-    /* user-select: none; */
 }
 
 #copy_key_btn {

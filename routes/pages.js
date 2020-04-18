@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
-// const Game = require('./../models/game');
 
 router.get('/', (req, res) => {
     res.render('pages/index');
+});
+
+router.post('/play/:id', (req, res) => {
+    res.render('pages/play');
 });
 
 router.get('/chat', (req, res) => {

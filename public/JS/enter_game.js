@@ -1,10 +1,13 @@
+import generateRandomName from './generate_name.js'
+
 const create_btn = document.getElementById('create_game_btn');
 const join_btn = document.getElementById('join_game_btn');
-const game_key = document.getElementById('game_key_input');
+const game_key_input = document.getElementById('game_key_input');
 const copy_key_btn = document.getElementById('copy_key_btn');
 const index_message = document.getElementById('index_message');
+let name_form = null;
 
-const checkForKey = async (key) => {
+const checkForValidGame = async (key) => {
     const response = await fetch(`http://localhost:5000/api/games/${key}`, {
         method: 'GET'
     }).then(function(response) {
@@ -35,43 +38,78 @@ const showMessage = (text, color) => {
 }
 
 const copyKey = () => {
-    game_key.select();
-    game_key.setSelectionRange(0, 99999)
+    game_key_input.select();
+    game_key_input.setSelectionRange(0, 99999)
     document.execCommand("copy");
     showMessage('Link copied to clipboard.', 'green');
 }
 
+const addNameForm = (new_game) => {
+    const parent = document.querySelector('.index_container');
+    const form = document.createElement('form');
+
+
+    // console.log(new_game._id)
+
+    form.action = `/play/${new_game._id}?_method=POST`;
+    form.method = `POST`;
+    form.id = 'name_form'
+    form.enctype = "multipart/form-data"
+
+    form.innerHTML = `
+        <input type="text" name="name_field" id="name_field" placeholder="Your name?">
+        <button type="submit" id="play_btn">Play</button>
+    `;
+  
+    form.addEventListener('submit', (e) => {
+        if (name_field.value === '') {
+            e.preventDefault();
+            showMessage('You need a name you silly', 'yellow');
+            name_field.value = generateRandomName();
+        }
+    });
+
+    name_form = form;
+    parent.insertBefore(form, index_message);
+}
+
 copy_key_btn.addEventListener('click', () => {
-    copyKey();
+    if (game_key_input.value === '') {
+        showMessage('Nothing to be copied', 'yellow');
+    }
+    else {
+        copyKey();
+    }
 });
 
-game_key.addEventListener('dblclick', (e) => {
+game_key_input.addEventListener('dblclick', (e) => {
     if (e.target.value !== '') {
         copyKey();
     }
 });
 
 join_btn.addEventListener('click', async () => {
-    if (game_key.value === '') {
+
+    if (game_key_input.value === '') {
         showMessage('You need a key to join a game', 'yellow');
         return ;
     }
-    const key = await checkForKey(game_key.value);
+    const new_game = await checkForValidGame(game_key_input.value);
 
-    if (key === null) {
-        showMessage('No valid key was found', 'yellow');
-    }
-    else {
-        console.log('get request');
+    if (new_game === null) {
+        showMessage('Not a valid key', 'yellow');
+        return ;
     }
 
+    if (name_form === null) {
+        addNameForm(new_game);
+    }
+    
 });
 
 create_btn.addEventListener('click', async () => {
     const new_game = await createNewGame();
-    game_key.value = new_game.key;
+    game_key_input.value = new_game.key;
     copyKey();
-    
-    console.log(new_game);
 });
 
