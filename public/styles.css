@@ -72,7 +72,7 @@ body {
     /* user-select: none; */
 }
 
-#play_game_btn {
+#copy_key_btn {
     background-color: #b19cd9;
     color: #FFFFFF;
     outline: none;
@@ -83,9 +83,22 @@ body {
     padding: 5px;
 }
 
-#key_description {
-    color: #FFFFFF;
-    vertical-align: text-top;
-    font-size: 0.6em;
-    margin-left: 2px;
+#index_message {
+    color: black;
+    font-size: 0.7em;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.green {
+    background-color: #90ee90;;
+}
+
+.yellow {
+    background-color: #fdfd96;
+}
+
+.hide_element {
+    opacity: 0;
+    transition: 0.5s ease;   
 }

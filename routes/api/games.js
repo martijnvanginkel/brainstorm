@@ -4,7 +4,7 @@ const Game = require('../../models/game');
 
 const generateRandomKey = () => {
     let key_code = '';
-    const key_length = 10;
+    const key_length = 14;
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const chars_length = chars.length;
 

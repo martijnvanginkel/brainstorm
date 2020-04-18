@@ -1,21 +1,8 @@
-const index_container = document.querySelector('.index_container');
 const create_btn = document.getElementById('create_game_btn');
 const join_btn = document.getElementById('join_game_btn');
-
-const showKeyContainer = (key) => {
-    const container = document.createElement('div');
-    
-    container.className = 'key_container';
-    container.innerHTML = `
-        <div id="game_key">
-            <input type="text" name="game_key" id="game_key_input" value="${key}">
-            <button type="button" id="play_game_btn">Play</button>
-        </div>
-        <span id="key_description">Click key to copy</span>
-    `;
-    index_container.append(container);
-    return container;
-}
+const game_key = document.getElementById('game_key_input');
+const copy_key_btn = document.getElementById('copy_key_btn');
+const index_message = document.getElementById('index_message');
 
 const createNewGame = async () => {
     const response = await fetch('http://localhost:5000/api/games/new', {
@@ -29,25 +16,36 @@ const createNewGame = async () => {
     return response;
 }
 
-join_btn.addEventListener('click', (e) => {
-    if (document.querySelector('.key_container') !== null) {
-        return;
-    }
-    showKeyContainer('');
+const showMessage = (text, color) => {
+    index_message.innerHTML = text;
+    index_message.className = '';
+    index_message.classList.add(`${color}`);
+    setTimeout(() => index_message.classList.add('hide_element'), 1000); 
+}
+
+const copyKey = () => {
+    game_key.select();
+    game_key.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+    showMessage('Link copied to clipboard.', 'green');
+}
+
+copy_key_btn.addEventListener('click', () => {
+    copyKey();
 });
 
-create_btn.addEventListener('click', async (e) => {
+join_btn.addEventListener('click', () => {
+    if (game_key.value === '') {
+        showMessage('No key', 'yellow');
+    }
 
+});
+
+create_btn.addEventListener('click', async () => {
     const new_game = await createNewGame();
-    const key_container = showKeyContainer(new_game.key);
-    const input = key_container.children.game_key.children.game_key_input;
-
-    // input.readonly = 'readonly';
-    input.readOnly = true;
-    input.addEventListener('click', (e) => {
-        e.target.select();
-        e.target.setSelectionRange(0, 99999)
-        document.execCommand("copy");
-    })
+    game_key.value = new_game.key;
+    copyKey();
+    
+    console.log(new_game);
 });
 
