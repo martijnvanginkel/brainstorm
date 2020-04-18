@@ -4,6 +4,17 @@ const game_key = document.getElementById('game_key_input');
 const copy_key_btn = document.getElementById('copy_key_btn');
 const index_message = document.getElementById('index_message');
 
+const checkForKey = async (key) => {
+    const response = await fetch(`http://localhost:5000/api/games/${key}`, {
+        method: 'GET'
+    }).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        return data;
+    });
+    return response;
+}
+
 const createNewGame = async () => {
     const response = await fetch('http://localhost:5000/api/games/new', {
         method: 'POST',
@@ -34,9 +45,24 @@ copy_key_btn.addEventListener('click', () => {
     copyKey();
 });
 
-join_btn.addEventListener('click', () => {
+game_key.addEventListener('dblclick', (e) => {
+    if (e.target.value !== '') {
+        copyKey();
+    }
+});
+
+join_btn.addEventListener('click', async () => {
     if (game_key.value === '') {
-        showMessage('No key', 'yellow');
+        showMessage('You need a key to join a game', 'yellow');
+        return ;
+    }
+    const key = await checkForKey(game_key.value);
+
+    if (key === null) {
+        showMessage('No valid key was found', 'yellow');
+    }
+    else {
+        console.log('get request');
     }
 
 });

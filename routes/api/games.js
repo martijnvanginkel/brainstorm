@@ -14,6 +14,15 @@ const generateRandomKey = () => {
     return key_code;
 }
 
+router.get('/:key', async (req, res) => {
+    try {
+        const game = await Game.findOne({ key: req.params.key });
+        res.json(game);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
 router.post('/new', async (req, res) => {
     const game = new Game({
         key: generateRandomKey()
