@@ -4,6 +4,14 @@ socket.on('message', message => {
     console.log(message);
 });
 
+console.log(window.location.href)
+
+const url_string = window.location.href;
+
+
+const url = new URL(url_string)
+console.log(url.searchParams.get("name_field"));
+
 
 const chat_form = document.getElementById('chat_form');
 

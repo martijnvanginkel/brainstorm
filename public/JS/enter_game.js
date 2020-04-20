@@ -45,16 +45,13 @@ const copyKey = () => {
 }
 
 const addNameForm = (new_game) => {
-    const parent = document.querySelector('.index_container');
+    const parent = document.getElementById('index_content');
     const form = document.createElement('form');
 
-
-    // console.log(new_game._id)
-
-    form.action = `/play/${new_game._id}?_method=POST`;
-    form.method = `POST`;
+    form.action = `/play/${new_game._id}`; // change this into a
+    form.method = `GET`;
     form.id = 'name_form'
-    form.enctype = "multipart/form-data"
+    form.enctype = "application/json"
 
     form.innerHTML = `
         <input type="text" name="name_field" id="name_field" placeholder="Your name?">
@@ -71,6 +68,14 @@ const addNameForm = (new_game) => {
 
     name_form = form;
     parent.insertBefore(form, index_message);
+}
+
+const removeNameForm = () => {
+    if (name_form === null) {
+        return ;
+    }
+    name_form.remove();
+    name_form = null;
 }
 
 copy_key_btn.addEventListener('click', () => {
@@ -98,18 +103,19 @@ join_btn.addEventListener('click', async () => {
 
     if (new_game === null) {
         showMessage('Not a valid key', 'yellow');
+        removeNameForm();
         return ;
     }
 
     if (name_form === null) {
         addNameForm(new_game);
-    }
-    
+    } 
 });
 
 create_btn.addEventListener('click', async () => {
     const new_game = await createNewGame();
     game_key_input.value = new_game.key;
     copyKey();
+    removeNameForm();
 });
 

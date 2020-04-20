@@ -3,7 +3,7 @@ const http = require('http');
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-
+const server_sockets = require('./server_sockets.js');
 
 const socket_io = require('socket.io');
 const app = express();
@@ -18,27 +18,17 @@ mongoose.connect('mongodb://localhost/brainstorm', { useNewUrlParser: true, useU
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
+// app.use(express.json());
+
 
 // Routes
 app.use('/', pageRouter);
 app.use('/api/games', gameApiRouter);
 
-
 io.on('connection', socket => {
-    console.log('New connection..');
-
-    socket.emit('welcome', 'Welcome to the chat'); // Emit to single client thats connecting
-
-    socket.on('disconnect', () => {
-        io.emit('message', 'A user has left the chat'); // Let everyone know
-    })
-
-    socket.on('chat_message', message => {
-        io.emit('message', message);
-        // console.log(message);
-    });
+    server_sockets.on_connection(socket, io)
 });
 
 const PORT = 5000;
