@@ -16,6 +16,7 @@
     "method-override": "^3.0.0",
     "mongoose": "^5.9.9",
     "qs": "^6.9.3",
+    "query-string": "^6.12.1",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {

@@ -133,9 +133,13 @@ body {
 
 /* Play Page */
 
-.online_users {
+#joined_players {
     display: flex;
     flex-direction: row;
+}
+
+.joined_player {
+    
 }
 
 #play_area {
@@ -143,8 +147,8 @@ body {
 }
 
 #play_field {
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     background-color: white;
     border: 1px solid black;
 }

@@ -1,16 +1,36 @@
 const socket = io();
 
-socket.on('message', message => {
-    console.log(message);
-});
-
-console.log(window.location.href)
-
-const url_string = window.location.href;
 
 
-const url = new URL(url_string)
-console.log(url.searchParams.get("name_field"));
+const addPlayerLabel = (player_name) => {
+    const parent = document.getElementById('joined_players');
+    const player_el = document.createElement('span');
+
+    player_el.className = 'joined_player';
+    player_el.innerHTML = player_name;
+    parent.append(player_el);
+}
+
+
+// socket.on('message', message => {
+//     console.log(message);
+// });
+
+socket.on('player_joined', () => {
+    const url = new URL(window.location.href);
+    const name = url.searchParams.get("name");
+    console.log(name);
+    socket.emit('initialize_player', name);
+})
+
+socket.on('player_initialized', (player_name) => {
+    addPlayerLabel(player_name);
+})
+
+socket.on('player_disconnect', (player_name) => {
+    console.log('hoi')
+    console.log(player_name)
+})
 
 
 const chat_form = document.getElementById('chat_form');

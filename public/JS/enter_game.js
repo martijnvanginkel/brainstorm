@@ -54,7 +54,7 @@ const addNameForm = (new_game) => {
     form.enctype = "application/json"
 
     form.innerHTML = `
-        <input type="text" name="name_field" id="name_field" placeholder="Your name?">
+        <input type="text" name="name" id="name_field" placeholder="Your name?">
         <button type="submit" id="play_btn">Play</button>
     `;
   
