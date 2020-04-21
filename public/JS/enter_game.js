@@ -48,12 +48,13 @@ const addNameForm = (new_game) => {
     const parent = document.getElementById('index_content');
     const form = document.createElement('form');
 
-    form.action = `/play/${new_game._id}`; // change this into a
+    form.action = `/game`; // change this into a
     form.method = `GET`;
     form.id = 'name_form'
     form.enctype = "application/json"
 
     form.innerHTML = `
+        <input type="hidden" name="game_key" id="game_key_field" value="${new_game.key}">
         <input type="text" name="name" id="name_field" placeholder="Your name?">
         <button type="submit" id="play_btn">Play</button>
     `;

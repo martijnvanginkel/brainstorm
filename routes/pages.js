@@ -8,8 +8,8 @@ router.get('/', (req, res) => {
     res.render('pages/index');
 });
 
-router.get('/play/:id', async (req, res) => {
-    res.render('pages/play');
+router.get('/game', async (req, res) => {
+    res.render('pages/game');
 });
 
 router.get('/chat', (req, res) => {
