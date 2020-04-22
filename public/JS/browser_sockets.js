@@ -1,7 +1,7 @@
 const socket = io();
 
 let game_key = null;
-let this_player_label = null;
+const player_labels = [];
 
 class PlayerLabel {
     constructor(name) {
@@ -17,12 +17,13 @@ class PlayerLabel {
         player_el.className = 'joined_player';
         player_el.innerHTML = this.name;
         parent.append(player_el);
-        // this.addToList();
+        this.addToList();
+        return player_el;
     }
 
-    // addToList() {
-    //     player_labels.push(this);
-    // }
+    addToList() {
+        player_labels.push(this);
+    }
 
     // removeFromList() {
     //     player_labels.splice(this);
@@ -57,6 +58,8 @@ socket.on('player_joined', async (welcome_message) => {
         })
     }
 
+    console.log(player_labels)
+
 
     socket.emit('initialize_player', name);
 })
@@ -75,7 +78,12 @@ socket.on('player_initialized', (player_name) => {
 socket.on('player_disconnect', (player_name) => {
     console.log('hoi')
     console.log(player_name)
-
+    player_labels.forEach((player) => {
+        if (player.name == player_name) {
+            console.log(player.element)
+            player.element.remove();
+        }
+    })
 
 })
 
