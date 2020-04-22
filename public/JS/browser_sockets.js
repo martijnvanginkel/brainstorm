@@ -1,29 +1,82 @@
 const socket = io();
 
-const addPlayerLabel = (player_name) => {
-    const parent = document.getElementById('joined_players');
-    const player_el = document.createElement('span');
+let game_key = null;
+let this_player_label = null;
 
-    player_el.className = 'joined_player';
-    player_el.innerHTML = player_name;
-    parent.append(player_el);
+class PlayerLabel {
+    constructor(name) {
+        this.name = name;
+        this.element = this.createElement();
+        // this_player_label = this;
+    }
+
+    createElement() {
+        const parent = document.getElementById('joined_players');
+        const player_el = document.createElement('span');
+    
+        player_el.className = 'joined_player';
+        player_el.innerHTML = this.name;
+        parent.append(player_el);
+        // this.addToList();
+    }
+
+    // addToList() {
+    //     player_labels.push(this);
+    // }
+
+    // removeFromList() {
+    //     player_labels.splice(this);
+    // }
 }
 
-socket.on('player_joined', (welcome_message) => {
+/* This only gets called for the player itself */
+socket.on('player_joined', async (welcome_message) => {
     console.log(welcome_message);
     const url = new URL(window.location.href);
     const name = url.searchParams.get("name");
-    // const game_key = url.searchParams.get("")
+    game_key = url.searchParams.get("game_key");
+
+    /*
+        Fetch put request the gamekey and the player to the db
+    */
+   const response = await fetch(`http://localhost:5000/api/games/${game_key}/add_user/${name}`, {
+        method: 'PUT',
+        body: {}
+    }).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        return data;
+    });
+
+    console.log(response);
+    if (response.users.length > 0) {
+
+        response.users.forEach((user) => {
+            new PlayerLabel(user.name);
+            // console.log(user)
+        })
+    }
+
+
     socket.emit('initialize_player', name);
 })
 
 socket.on('player_initialized', (player_name) => {
-    addPlayerLabel(player_name);
+
+    /*
+        create a new player label
+
+    */
+
+
+    new PlayerLabel(player_name);
 })
 
 socket.on('player_disconnect', (player_name) => {
     console.log('hoi')
     console.log(player_name)
+
+
 })
 
 

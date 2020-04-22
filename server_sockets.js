@@ -7,7 +7,7 @@ const on_connection = (socket, io) => {
 
     socket.on('initialize_player', (player_name) => {
         this_player = player_name;
-        io.emit('player_initialized', player_name);
+        socket.broadcast.emit('player_initialized', player_name);
     })
 
     socket.on('disconnect', () => {

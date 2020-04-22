@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Game = require('../../models/game');
+const Game = require('./../../models/game');
+const User = require('./../../models/user');
 
 const generateRandomKey = () => {
     let key_code = '';
@@ -35,5 +36,20 @@ router.post('/new', async (req, res) => {
         res.status(400).json({ message: error.message }); // 400 is user gives wrong input and not with server
     }
 });
+
+router.put('/:key/add_user/:user', async (req, res) => {
+    try {
+        const game = await Game.findOne({ key: req.params.key });
+        const user = new User({
+            name: req.params.user,
+            in_game: true
+        });
+        game.users.push(user);
+        await game.save();
+        res.json(game);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
 
 module.exports = router;
