@@ -37,15 +37,78 @@ router.post('/new', async (req, res) => {
     }
 });
 
+const checkForAddOn = (cur_users, new_user) => {
+    let duplicants = 0;
+    cur_users.forEach(user => {
+        if (user.name == new_user) {
+            duplicants++;
+        }
+    });
+    return ` (${duplicants})`
+}
+
+const filterOnlineUsers = (user) => user.in_game === true;
+
+router.get('/:key/get_users', async (req, res) => {
+    try {
+        const game = await Game.findOne({ key: req.params.key });
+        const users = game.users.filter(filterOnlineUsers);
+        console.log(users);
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+});
+
 router.put('/:key/add_user/:user', async (req, res) => {
     try {
         const game = await Game.findOne({ key: req.params.key });
-        const user = new User({
+        const new_user = new User({
             name: req.params.user,
+            name_add_on: checkForAddOn(game.users, req.params.user),
             in_game: true
         });
-        game.users.push(user);
+        game.users.push(new_user);
         await game.save();
+        res.json(new_user);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+function findUserById(id) {
+    return function(user_el) {
+        return user_el.id === id;
+    }
+}
+
+router.put('/:key/remove_user/:user_id', async (req, res) => {
+    try {
+        const game = await Game.findOne({key: req.params.key});
+
+        const user = game.users.find(findUserById(req.params.user_id))
+        user.in_game = false;
+        await game.save();
+        // console.log(game);
+
+
+        // User.find({name:'vlad','links.url':req.params.query}, function(err, foundUsers){
+        //     // ---
+        //  });
+
+        // Game.find({'links.url':req.params.query}, function(err, foundUsers){
+        //     // ---
+        //  });
+
+        // console.log(game);
+        // const user = new User({
+        //     name: req.params.user,
+        //     in_game: true
+        // });
+        // game.users.push(user);
+        // await game.save();
+        console.log('left game');
+        console.log(game);
         res.json(game);
     } catch (error) {
         res.status(500).json({ message: error.message })

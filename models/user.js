@@ -4,6 +4,9 @@ const user_schema = new mongoose.Schema({
     name: {
         type: String
     },
+    name_add_on: {
+        type: Number
+    },
     in_game: {
         type: Boolean
     }

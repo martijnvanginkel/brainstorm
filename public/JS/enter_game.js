@@ -48,7 +48,7 @@ const addNameForm = (new_game) => {
     const parent = document.getElementById('index_content');
     const form = document.createElement('form');
 
-    form.action = `/game`; // change this into a
+    form.action = `/lobby`; // change this into a
     form.method = `GET`;
     form.id = 'name_form'
     form.enctype = "application/json"

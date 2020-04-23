@@ -133,12 +133,12 @@ body {
 
 /* Play Page */
 
-#joined_players {
+#joined_users {
     display: flex;
     flex-direction: row;
 }
 
-.joined_player {
+.joined_user {
     
 }
 
