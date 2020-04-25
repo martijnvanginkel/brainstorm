@@ -4,126 +4,75 @@
 }
 
 body {
-    background-color: #b19cd9;
     font-family: "montserrat";
-    font-weight: 400;
     overflow: hidden;
 }
 
-.main_header {
-    display: flex;
-    justify-content: flex-end;
-}
-
-/* Index Page */
-
 .index_container {
-    position: absolute;
-    width: 100%;
-    top: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-}
-
-.index_title {
-    font-weight: 100;
-    color: #FFFFFF;
-    font-size: 1.5em;
-}
-
-.index_buttons {
-    margin: 5px 0;
-}
-
-.index_btn {
-    background-color: transparent;
-    color: #FFFFFF;
-    cursor: pointer;
-    outline: none;
-    padding: 5px;
-    border: 2px solid #FFFFFF;
-    border-radius: 5px;
-    font-size: 1em;
-}
-
-.index_btn:hover {
-    background-color: #FFFFFF;
-    color: #b19cd9;
-}
-
-.key_container {
-    margin: 5px 0;
-}
-
-#name_form {
-    margin: 5px 0;
-}
-
-#game_key {
-    display: flex;
-}
-
-#game_key_input {
-    border: 0;
-    outline: none;
-    border-radius: 5px 0 0 5px;
-    font-size: 1.25em;
-    user-select: none;
-}
-
-#name_field {
-    border: 0;
-    outline: none;
-    user-select: none;
-    font-size: 1em;
-    border-radius: 5px;
-    padding: 4px;
-}
-
-#copy_key_btn {
-    background-color: #b19cd9;
-    color: #FFFFFF;
-    outline: none;
-    height: 100%;
-    border: 1px solid #FFFFFF;
-    cursor: pointer;
-    border-radius: 0 5px 5px 0;
-    padding: 5px;
-}
-
-#play_btn {
-    background-color: #b19cd9;
-    color: #FFFFFF;
-    outline: none;
-    height: 100%;
-    border: 1px solid #FFFFFF;
-    cursor: pointer;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-#index_message {
-    color: black;
-    font-size: 0.7em;
-    padding: 5px;
-    border-radius: 5px;
+    max-width: 480px;
+    margin: 0 auto;
 }
 
 #index_content {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    padding: 0 10px 0 10px;
 }
 
-.green {
-    background-color: #90ee90;;
+#index_header {
+    margin: 10px 0;
 }
 
-.yellow {
-    background-color: #fdfd96;
+#index_title {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+#index_description {
+    text-align: center;
+    font-size: 0.7em;
+}
+
+.index_buttons {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+#join_game_btn {
+    margin-right: 5px;
+}
+
+.index_buttons > button {
+    flex-grow: 1;
+}
+
+#game_key {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+#game_key_input {
+    flex-grow: 0.8;
+}
+
+#copy_key_btn {
+    flex-grow: 0.2;
+    margin-left: 5px;
+}
+
+#name_form {
+    display: flex;
+    flex-direction: column;
+}
+
+#name_field {
+    margin-bottom: 5px;
+}
+
+#play_btn {
+    margin-bottom: 5px;
 }
 
 .hide_element {
@@ -131,25 +80,56 @@ body {
     transition: 0.5s ease;   
 }
 
-/* Play Page */
+#index_message {
+    font-size: 1em;
+}
+
+/* Lobby */
+
+#lobby_container {
+    max-width: 480px;
+    margin: 5% auto 0 auto;
+}
+
+#lobby_title {
+    text-align: center;
+}
 
 #joined_users {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .joined_user {
-    
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    margin-bottom: 10px;
 }
 
-#play_area {
-    margin: 20px;
+.joined_user_name {
+    flex-grow: 1;
 }
 
-#play_field {
-    width: 400px;
-    height: 400px;
-    background-color: white;
-    border: 1px solid black;
+#lobby_countdown {
+    text-align: center;
+    display:none;
 }
 
+#ready_btn {
+    background-color: transparent;
+    outline: none;
+    border: 1px solid lightgray;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+#ready_btn:hover {
+    background-color: #00d1b2;
+    cursor: pointer;
+    color: #FFF;
+}

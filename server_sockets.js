@@ -19,8 +19,6 @@ const on_connection = (socket, io) => {
         io.emit('user_initialized', this_user.id, this_user.name);
     });
 
-    
-
     socket.on('disconnect', async () => {
         console.log('I myself disconnected')
 

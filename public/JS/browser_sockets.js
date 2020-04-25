@@ -12,10 +12,15 @@ class UserLabel {
 
     createElement() {
         const parent = document.getElementById('joined_users');
-        const user_element = document.createElement('span');
+        const user_element = document.createElement('div');
     
         user_element.className = 'joined_user';
-        user_element.innerHTML = this.name;
+        user_element.innerHTML = `
+            <span class="joined_user_name">${this.name}</span>
+            <span class="joined_user_icon"><i class="fa fa-user-o" aria-hidden="true"></i></span>
+            <button type="button" id="ready_btn">Ready</button>
+        `;
+        // user_element.innerHTML = this.name;
         parent.append(user_element);
         user_labels.push(this);
         return user_element;
@@ -73,19 +78,9 @@ const findUserLabelById = (id) => {
     }
 }
 
-function startsWith(wordToCompare) {
-    return function(element) {
-        return element.indexOf(wordToCompare) === 0;
-    }
-}
-
-
 socket.on('user_disconnect', async (user_id) => {
 
-
-    console.log(user_labels);
     const user = user_labels.find(findUserLabelById(user_id));
-    console.log(user);
 
     const response = await fetch(`http://localhost:5000/api/games/${game_key}/remove_user/${user.id}`, {
         method: 'PUT',
@@ -101,8 +96,5 @@ socket.on('user_disconnect', async (user_id) => {
 
     user.removeElement();
 
-    //         await user.removeElement();
-    //         user_labels.splice(user);
-    //     }
-    // });
+
 });

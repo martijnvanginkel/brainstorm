@@ -55,8 +55,8 @@ const addNameForm = (new_game) => {
 
     form.innerHTML = `
         <input type="hidden" name="game_key" id="game_key_field" value="${new_game.key}">
-        <input type="text" name="name" id="name_field" placeholder="Your name?">
-        <button type="submit" id="play_btn">Play</button>
+        <input type="text" name="name" id="name_field" class="input" placeholder="Your name?">
+        <button type="submit" id="play_btn" class="button is-primary">Play</button>
     `;
   
     form.addEventListener('submit', (e) => {
