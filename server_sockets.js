@@ -16,8 +16,12 @@ const on_connection = (socket, io) => {
         this_user.id = new_user._id
         this_user.name = new_user.name;
         game_key = key;
-        io.emit('user_initialized', this_user.id, this_user.name);
+        socket.broadcast.emit('user_initialized', this_user.id, this_user.name);
     });
+
+    socket.on('user_is_ready', (user_id) => {
+        socket.broadcast.emit('lobby_user_ready', user_id);
+    })
 
     socket.on('disconnect', async () => {
         console.log('I myself disconnected')
@@ -31,9 +35,11 @@ const on_connection = (socket, io) => {
             return data;
         });
 
+        console.log(this_user.id)
+
         io.emit('user_disconnect', this_user.id); // Let everyone know
-        this_user.id = null;
-        this_user.name = null;
+        // this_user.id = null;
+        // this_user.name = null;
     })
 }
 

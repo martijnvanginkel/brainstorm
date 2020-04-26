@@ -7,6 +7,9 @@ const user_schema = new mongoose.Schema({
     name_add_on: {
         type: Number
     },
+    lobby_ready: {
+        type: Boolean
+    },
     in_game: {
         type: Boolean
     }

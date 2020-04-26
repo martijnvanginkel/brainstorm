@@ -66,6 +66,7 @@ router.put('/:key/add_user/:user', async (req, res) => {
         const new_user = new User({
             name: req.params.user,
             name_add_on: checkForAddOn(game.users, req.params.user),
+            lobby_ready: false,
             in_game: true
         });
         game.users.push(new_user);
@@ -74,13 +75,26 @@ router.put('/:key/add_user/:user', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
-})
+});
 
 function findUserById(id) {
     return function(user_el) {
         return user_el.id === id;
     }
 }
+
+router.put('/:key/set_user_ready/:user_id', async (req, res) => {
+    try {
+        const game = await Game.findOne({ key: req.params.key });
+        const user = game.users.find(findUserById(req.params.user_id))
+        user.lobby_ready = true;
+        await game.save();
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }  
+});
+
 
 router.put('/:key/remove_user/:user_id', async (req, res) => {
     try {
