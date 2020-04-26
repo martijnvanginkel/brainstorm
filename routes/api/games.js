@@ -89,7 +89,7 @@ router.put('/:key/set_user_ready/:user_id', async (req, res) => {
         const user = game.users.find(findUserById(req.params.user_id))
         user.lobby_ready = true;
         await game.save();
-        res.json(user);
+        res.json(game);
     } catch (error) {
         res.status(500).json({ message: error.message })
     }  

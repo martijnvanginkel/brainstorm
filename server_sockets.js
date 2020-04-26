@@ -10,7 +10,7 @@ const on_connection = (socket, io) => {
         name: null
     }
 
-    socket.emit('user_joined', 'Welcome to the session'); // Emit to single client thats connecting
+    socket.emit('user_joined'); // Emit to single client thats connecting
 
     socket.on('initialize_user', (new_user, key) => {
         this_user.id = new_user._id

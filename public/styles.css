@@ -109,6 +109,10 @@ body {
     margin-bottom: 10px;
 }
 
+.ready_joined_user {
+    border-color: #00d1b2;
+}
+
 .joined_user_name {
     flex-grow: 1;
 }
@@ -132,4 +136,8 @@ body {
     background-color: #00d1b2;
     cursor: pointer;
     color: #FFF;
+}
+
+.disable_hover {
+    pointer-events:none;
 }
