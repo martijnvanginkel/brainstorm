@@ -8,9 +8,9 @@ body {
     overflow: hidden;
 }
 
-.index_container {
+#index_container {
     max-width: 480px;
-    margin: 0 auto;
+    margin: 5% auto 0 auto;
 }
 
 #index_content {
@@ -121,7 +121,7 @@ body {
 #ready_btn {
     background-color: transparent;
     outline: none;
-    border: 1px solid lightgray;
+    border: 1px solid #00d1b2;
     padding: 5px 10px 5px 10px;
     border-radius: 5px;
     text-decoration: none;
