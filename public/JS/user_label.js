@@ -1,61 +1,73 @@
+// import { fetchSetUserReady } from './game_users.js';
+
+// const socket = io();
+
 // const user_labels = [];
+
+
 
 // class UserLabel {
 //     constructor(id, name, is_me, lobby_ready) {
 //         this.id = id;
 //         this.name = name;
-//         this.element = this.createElement(is_me);
+//         this.element = this.createElement(is_me, id, lobby_ready);
 //         this.lobby_ready = lobby_ready;
 //     }
 
-//     addReadyButton() {
+//     addReadyButton(user_element) {
+//         const ready_btn = document.createElement('button');
+//         ready_btn.type = 'button';
+//         ready_btn.id = 'ready_btn';
+//         ready_btn.innerHTML = 'Ready';
+//         ready_btn.addEventListener('click', async (e) => {
 
+//             const game = await fetchSetUserReady(this.id);
+
+//             console.log(game);
+//             /*
+
+//                 if all users are ready then lock the game and start the countdown for all users
+
+//             */
+
+//             e.target.disabled = true;
+//             e.target.className = 'disable_hover'
+//             // e.
+//             console.log(e.target.parentElement);
+//             e.target.parentElement.classList.add('ready_joined_user')
+//             socket.emit('user_is_ready', this.id);
+//         })
+//         user_element.append(ready_btn);
 //     }
 
-//     addReadySign() {
-
-//     }
-
-//     createElement(is_me) {
+//     createElement(is_me, user_id, lobby_ready) {
 //         const parent = document.getElementById('joined_users');
 //         const user_element = document.createElement('div');
     
 //         user_element.className = 'joined_user';
-//         user_element.innerHTML = `
-//             <span class="joined_user_name">${this.name}</span>
-//             <span class="joined_user_icon"><i class="fa fa-user-o" aria-hidden="true"></i></span>
-//         `;
-//             {/* <button type="button" id="ready_btn">Ready</button> */}
-//         if (is_me) {
-//             const ready_btn = document.createElement('button');
-//             ready_btn.type = 'button';
-//             ready_btn.id = 'ready_btn';
-//             ready_btn.innerHTML = 'Ready';
-//             ready_btn.addEventListener('click', (e) => {
-//                 const response = await fetch(`http://localhost:5000/api/games/asdf/set_user_ready/${this.id}`, {
-//                     method: 'PUT',
-//                     body: {}
-//                 }).then(function(response) {
-//                     return response.json();
-//                 }).then(function(data) {
-//                     return data;
-//                 });
+//         user_element.innerHTML = `<span class="joined_user_name">${this.name}</span>`;
 
-                
-//             })
-//             user_element.append(ready_btn);
+//         if (is_me) {
+//             this.addReadyButton(user_element);
 //         }
 //         else {
 //             const ready_el = document.createElement('span');
+//             ready_el.className = 'ready_el';
 //             ready_el.innerHTML = 'Not ready';
 //             user_element.append(ready_el);
-//             if (this.lobby_ready) {
+//             if (lobby_ready === true) {
 //                 ready_el.innerHTML = 'Ready';
+//                 user_element.classList.add('ready_joined_user');
 //             }
 //         }
 //         parent.append(user_element);
 //         user_labels.push(this);
 //         return user_element;
+//     }
+
+//     setUserReady() {
+//         this.element.querySelector('.ready_el').innerHTML = 'ready'
+//         this.element.classList.add('ready_joined_user');
 //     }
 
 //     removeElement() {

@@ -138,6 +138,10 @@ body {
     color: #FFF;
 }
 
+.ready_el {
+    margin-right: 6px;
+}
+
 .disable_hover {
     pointer-events:none;
 }

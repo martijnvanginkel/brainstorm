@@ -55,10 +55,9 @@ class UserLabel {
             ready_el.innerHTML = 'Not ready';
             user_element.append(ready_el);
             if (lobby_ready === true) {
-                // this is already been done in the setuserready
+
                 ready_el.innerHTML = 'Ready';
                 user_element.classList.add('ready_joined_user');
-                // this.element.classList.add('ready_joined_user');
             }
         }
         parent.append(user_element);
@@ -132,26 +131,31 @@ const fetchSetUserReady = async (user_id) => {
 
 /* This only gets called for the player itself */
 socket.on('user_joined', async () => {
-    const url = new URL(window.location.href);
-    const name = url.searchParams.get("name");
-
-    game_key = url.searchParams.get("game_key");
 
 
-    const users = await fetchAllUsers();
+    // socket.on('joinGame', () => {
 
-    console.log(users);
+        const url = new URL(window.location.href);
+        const name = url.searchParams.get("name");
+    
+        game_key = url.searchParams.get("game_key");
+    
+    
+        const users = await fetchAllUsers();
+    
+        /* Add labels for users already in the game */
+        users.forEach(user => {
+            new UserLabel(user._id, user.name, false, user.lobby_ready)
+        });
+    
+        const new_user = await fetchAddUser(name);
+    
+        new UserLabel(new_user._id, new_user.name, true, false);
+    
+        socket.emit('initialize_user', new_user, game_key);
 
-    /* Add labels for users already in the game */
-    users.forEach(user => {
-        new UserLabel(user._id, user.name, false, user.lobby_ready)
-    });
+    // });
 
-    const new_user = await fetchAddUser(name);
-
-    new UserLabel(new_user._id, new_user.name, true, false);
-
-    socket.emit('initialize_user', new_user, game_key);
 });
 
 socket.on('user_initialized', (id, name) => {

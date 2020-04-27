@@ -16,11 +16,12 @@ const on_connection = (socket, io) => {
         this_user.id = new_user._id
         this_user.name = new_user.name;
         game_key = key;
-        socket.broadcast.emit('user_initialized', this_user.id, this_user.name);
+        socket.join(key);
+        socket.broadcast.to(key).emit('user_initialized', this_user.id, this_user.name);
     });
 
     socket.on('user_is_ready', (user_id) => {
-        socket.broadcast.emit('lobby_user_ready', user_id);
+        socket.broadcast.to(game_key).emit('lobby_user_ready', user_id);
     })
 
     socket.on('disconnect', async () => {
@@ -37,7 +38,7 @@ const on_connection = (socket, io) => {
 
         console.log(this_user.id)
 
-        io.emit('user_disconnect', this_user.id); // Let everyone know
+        io.to(game_key).emit('user_disconnect', this_user.id); // Let everyone know
         // this_user.id = null;
         // this_user.name = null;
     })
