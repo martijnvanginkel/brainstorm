@@ -37,6 +37,10 @@ const on_connection = (socket, io) => {
         }
     });
 
+    socket.on('message', (message) => {
+        io.to(game_key).emit('message', message);
+    })
+
     socket.on('disconnect', async () => {
         await fetch(`http://localhost:5000/api/games/${game_key}/remove_user/${this_user.id}`, {
             method: 'PUT',

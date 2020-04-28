@@ -1,5 +1,6 @@
 import { UserLabel, user_labels, findUserLabelById, percentageOfUsersReady } from './user_label.js';
-import { setupGame } from './setup_game.js';
+import { setupGamePage, setupChatForm } from './setup_game.js';
+import { spawnMessage } from './messages.js'
 
 const socket = io();
 
@@ -99,7 +100,13 @@ socket.on('user_ready', (user_id, percentage) => {
 socket.on('game_started', async () => {
     const users = await fetchAllUsers();
 
-    setupGame(users);
+    setupGamePage(users);
+    setupChatForm(socket);
+});
+
+socket.on('message', (message) => {
+    console.log(message);
+    spawnMessage(message);
 });
 
 socket.on('user_disconnect', async (user_id) => {

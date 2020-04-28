@@ -4,19 +4,13 @@
     <%- include('../partials/head') -%>
 </head>
 <body>
-
-    <div class="content">
         
-        <div id="lobby_container">
-            <h1 id="lobby_title" class="title is-4">lobby</h1>
-            <div id="joined_users">     
-        
-            </div>
-            <progress id="progress_bar" class="progress is-primary" value="0" max="100">15%</progress>
-        </div>
+    <div id="lobby_container">
+        <h1 id="lobby_title" class="title is-4">lobby</h1>
+        <div id="joined_users"></div>
+        <progress id="progress_bar" class="progress is-primary" value="0" max="100">15%</progress>
     </div>
         
-
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/JS/browser_sockets.js"></script>
 </body>
