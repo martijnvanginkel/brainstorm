@@ -5,7 +5,7 @@ const removeLobby = () => {
     lobby.remove();
 }
 
-const setupPlayerLabels = (users) => {
+const insertPlayerLabels = (users) => {
     const parent = document.getElementById('player_tags');
 
     users.forEach(user => {
@@ -56,7 +56,7 @@ const createGameLayout = () => {
 const setupGamePage = (users) => {
     removeLobby();
     createGameLayout();
-    setupPlayerLabels(users);
+    insertPlayerLabels(users);
 }
 
 export { setupGamePage, setupChatForm };
