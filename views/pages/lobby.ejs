@@ -4,8 +4,8 @@
     <%- include('../partials/head') -%>
 </head>
 <body>
-    
-    <!-- <div id="play_area"> -->
+
+    <div class="content">
         
         <div id="lobby_container">
             <h1 id="lobby_title" class="title is-4">lobby</h1>
@@ -13,27 +13,9 @@
         
             </div>
             <progress id="progress_bar" class="progress is-primary" value="0" max="100">15%</progress>
-
-            <h1 id="lobby_countdown" class="title is-3">3</h1>
         </div>
-    
-
-
-        <!-- <div id="play_field">
-    
-        </div> -->
-
-        <!-- <form action="" id="chat_form">
-    
-            <div class="chat_box">
-    
-            </div>
-    
-            <input type="text" name="chat_input" id="chat_input">
-            <button type="submit">Send</button>
-        </form> -->
-    <!-- </div> -->
-
+    </div>
+        
 
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/JS/browser_sockets.js"></script>

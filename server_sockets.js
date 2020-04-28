@@ -20,9 +20,22 @@ const on_connection = (socket, io) => {
         socket.broadcast.to(key).emit('user_initialized', this_user.id, this_user.name, percentage);
     });
 
-    socket.on('user_pressed_ready', (user_id, percentage) => {
+    socket.on('user_pressed_ready', async (user_id, percentage) => {
         socket.broadcast.to(game_key).emit('user_ready', user_id, percentage);
-    })
+
+        if (percentage === 100) {
+            await fetch(`http://localhost:5000/api/games/lock_game/${game_key}`, {
+                method: 'PUT',
+                body: {}
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                return data;
+            });
+
+            io.to(game_key).emit('game_started');
+        }
+    });
 
     socket.on('disconnect', async () => {
         await fetch(`http://localhost:5000/api/games/${game_key}/remove_user/${this_user.id}`, {
@@ -35,7 +48,7 @@ const on_connection = (socket, io) => {
         });
 
         io.to(game_key).emit('user_disconnect', this_user.id); // Let everyone know
-    })
+    });
 }
 
 module.exports = { on_connection }

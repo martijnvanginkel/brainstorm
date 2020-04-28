@@ -145,3 +145,26 @@ body {
 .disable_hover {
     pointer-events:none;
 }
+
+#player_tags {
+    display: flex;
+    flex-direction: row;
+}
+
+.player_tag {
+    padding: 5px;
+    background-color: lightsalmon;
+    margin: 2px;
+    border-radius: 5px;
+}
+
+#player_input {
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    bottom: 0px;
+    margin-bottom: 5px;
+    padding: 10px;
+    font-size: 16px;
+}

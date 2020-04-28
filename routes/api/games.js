@@ -15,6 +15,24 @@ const generateRandomKey = () => {
     return key_code;
 }
 
+const checkForAddOn = (cur_users, new_user) => {
+    let duplicants = 0;
+    cur_users.forEach(user => {
+        if (user.name == new_user) {
+            duplicants++;
+        }
+    });
+    return ` (${duplicants})`
+}
+
+const filterOnlineUsers = (user) => user.in_game === true;
+
+const findUserById = (id) => {
+    return (user_el) => {
+        return user_el.id === id;
+    }
+}
+
 router.get('/:key', async (req, res) => {
     try {
         const game = await Game.findOne({ key: req.params.key });
@@ -36,18 +54,6 @@ router.post('/new', async (req, res) => {
         res.status(400).json({ message: error.message }); // 400 is user gives wrong input and not with server
     }
 });
-
-const checkForAddOn = (cur_users, new_user) => {
-    let duplicants = 0;
-    cur_users.forEach(user => {
-        if (user.name == new_user) {
-            duplicants++;
-        }
-    });
-    return ` (${duplicants})`
-}
-
-const filterOnlineUsers = (user) => user.in_game === true;
 
 router.get('/:key/get_users', async (req, res) => {
     try {
@@ -76,12 +82,6 @@ router.put('/:key/add_user/:user', async (req, res) => {
     }
 });
 
-function findUserById(id) {
-    return function(user_el) {
-        return user_el.id === id;
-    }
-}
-
 router.put('/:key/set_user_ready/:user_id', async (req, res) => {
     try {
         const game = await Game.findOne({ key: req.params.key });
@@ -94,7 +94,6 @@ router.put('/:key/set_user_ready/:user_id', async (req, res) => {
     }  
 });
 
-
 router.put('/:key/remove_user/:user_id', async (req, res) => {
     try {
         const game = await Game.findOne({key: req.params.key});
@@ -106,6 +105,18 @@ router.put('/:key/remove_user/:user_id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
-})
+});
+
+router.put('/lock_game/:key', async (req, res) => {
+    try {
+        const game = await Game.findOne({key: req.params.key});
+
+        game.open = false;
+        await game.save();
+        res.json(game);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+});
 
 module.exports = router;

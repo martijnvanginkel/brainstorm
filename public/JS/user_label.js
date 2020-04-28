@@ -5,10 +5,6 @@ const user_labels = [];
 const percentageOfUsersReady = (users) => {
     let total = users.length;
     let count = 0;
-
-    console.log(total);
-    // console.log
-
     for (let i = 0; i < users.length; i++) {
         if (users[i].lobby_ready === true) {
             count++;
@@ -18,6 +14,12 @@ const percentageOfUsersReady = (users) => {
         return 0;
     }
     return (count / total) * 100;
+}
+
+const findUserLabelById = (id) => {
+    return (user) => {
+        return user.id === id;
+    }
 }
 
 class UserLabel {
@@ -34,14 +36,8 @@ class UserLabel {
         ready_btn.id = 'ready_btn';
         ready_btn.innerHTML = 'Ready';
         ready_btn.addEventListener('click', async (e) => {
-
             const game = await fetchSetUserReady(this.id);
             const percentage = percentageOfUsersReady(game.users);
-            /*
-
-                if all users are ready then lock the game and start the countdown for all users
-
-            */
 
             e.target.disabled = true;
             e.target.className = 'disable_hover'
@@ -87,12 +83,6 @@ class UserLabel {
     removeElement() {
         this.element.remove();
         user_labels.splice(this);
-    }
-}
-
-const findUserLabelById = (id) => {
-    return (user) => {
-        return user.id === id;
     }
 }
 

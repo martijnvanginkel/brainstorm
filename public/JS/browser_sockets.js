@@ -1,4 +1,6 @@
 import { UserLabel, user_labels, findUserLabelById, percentageOfUsersReady } from './user_label.js';
+import { setupGame } from './setup_game.js';
+
 const socket = io();
 
 let game_key = null;
@@ -70,11 +72,12 @@ socket.on('user_joined', async () => {
     /* Add labels for users already in the game */
     users.forEach(user => new UserLabel(user._id, user.name, false, user.lobby_ready));
 
+    /* Add new user to the game */
     const new_user = await fetchAddUser(name);
     new UserLabel(new_user._id, new_user.name, true, false);
 
+    /* Set progress bar */
     users.push(new_user);
-
     const percentage = percentageOfUsersReady(users);
     updateProgressBar(percentage);
 
@@ -92,6 +95,12 @@ socket.on('user_ready', (user_id, percentage) => {
     user.setUserReady();
     updateProgressBar(percentage);
 })
+
+socket.on('game_started', async () => {
+    const users = await fetchAllUsers();
+
+    setupGame(users);
+});
 
 socket.on('user_disconnect', async (user_id) => {
     const user = await user_labels.find(findUserLabelById(user_id));
