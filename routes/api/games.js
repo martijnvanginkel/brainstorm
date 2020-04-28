@@ -53,7 +53,6 @@ router.get('/:key/get_users', async (req, res) => {
     try {
         const game = await Game.findOne({ key: req.params.key });
         const users = game.users.filter(filterOnlineUsers);
-        console.log(users);
         res.json(users);
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -103,26 +102,6 @@ router.put('/:key/remove_user/:user_id', async (req, res) => {
         const user = game.users.find(findUserById(req.params.user_id))
         user.in_game = false;
         await game.save();
-        // console.log(game);
-
-
-        // User.find({name:'vlad','links.url':req.params.query}, function(err, foundUsers){
-        //     // ---
-        //  });
-
-        // Game.find({'links.url':req.params.query}, function(err, foundUsers){
-        //     // ---
-        //  });
-
-        // console.log(game);
-        // const user = new User({
-        //     name: req.params.user,
-        //     in_game: true
-        // });
-        // game.users.push(user);
-        // await game.save();
-        console.log('left game');
-        console.log(game);
         res.json(game);
     } catch (error) {
         res.status(500).json({ message: error.message })

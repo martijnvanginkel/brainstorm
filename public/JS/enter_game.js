@@ -95,19 +95,16 @@ game_key_input.addEventListener('dblclick', (e) => {
 });
 
 join_btn.addEventListener('click', async () => {
-
     if (game_key_input.value === '') {
         showMessage('You need a key to join a game', 'yellow');
         return ;
     }
     const new_game = await checkForValidGame(game_key_input.value);
-
     if (new_game === null) {
         showMessage('Not a valid key', 'yellow');
         removeNameForm();
         return ;
     }
-
     if (name_form === null) {
         addNameForm(new_game);
     } 

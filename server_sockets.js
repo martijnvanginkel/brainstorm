@@ -12,22 +12,20 @@ const on_connection = (socket, io) => {
 
     socket.emit('user_joined'); // Emit to single client thats connecting
 
-    socket.on('initialize_user', (new_user, key) => {
+    socket.on('initialize_user', (new_user, key, percentage) => {
         this_user.id = new_user._id
         this_user.name = new_user.name;
         game_key = key;
         socket.join(key);
-        socket.broadcast.to(key).emit('user_initialized', this_user.id, this_user.name);
+        socket.broadcast.to(key).emit('user_initialized', this_user.id, this_user.name, percentage);
     });
 
-    socket.on('user_is_ready', (user_id) => {
-        socket.broadcast.to(game_key).emit('lobby_user_ready', user_id);
+    socket.on('user_pressed_ready', (user_id, percentage) => {
+        socket.broadcast.to(game_key).emit('user_ready', user_id, percentage);
     })
 
     socket.on('disconnect', async () => {
-        console.log('I myself disconnected')
-
-        const response = await fetch(`http://localhost:5000/api/games/${game_key}/remove_user/${this_user.id}`, {
+        await fetch(`http://localhost:5000/api/games/${game_key}/remove_user/${this_user.id}`, {
             method: 'PUT',
             body: {}
         }).then(function(response) {
@@ -36,11 +34,7 @@ const on_connection = (socket, io) => {
             return data;
         });
 
-        console.log(this_user.id)
-
         io.to(game_key).emit('user_disconnect', this_user.id); // Let everyone know
-        // this_user.id = null;
-        // this_user.name = null;
     })
 }
 
