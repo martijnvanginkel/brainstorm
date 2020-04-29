@@ -1,23 +1,7 @@
 import { fetchSetUserReady, userPressedReady } from './browser_sockets.js';
+import { percentageOfUsersReady } from './lobby_utils.js';
 
 const user_labels = [];
-
-const filterOnlineUsers = (user) => user.in_game === true;
-
-const percentageOfUsersReady = (users) => {
-    users = users.filter(filterOnlineUsers);
-    let total = users.length;
-    let count = 0;
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].lobby_ready === true) {
-            count++;
-        }
-    }
-    if (count === 0) {
-        return 0;
-    }
-    return (count / total) * 100;
-}
 
 class UserLabel {
     constructor(id, name, is_me, lobby_ready) {

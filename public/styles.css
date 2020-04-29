@@ -213,8 +213,6 @@ body {
     top: 50%;
     left: 50%;
     margin: -50px 0 0 -50px;
-    -webkit-animation: circle_spin 2s linear infinite;
-    animation: circle_spin 2s linear infinite;
     transition: 0.2s
 }
 
@@ -225,6 +223,8 @@ body {
     height: 120px;
     margin: -60px 0 0 -60px;
     transition: 0.2s;
+    -webkit-animation: circle_spin 2s linear infinite;
+    animation: circle_spin 2s linear infinite;
 }
   
 /* Safari */

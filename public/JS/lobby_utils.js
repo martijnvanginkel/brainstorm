@@ -8,6 +8,21 @@ const updateProgressBar = (percentage) => {
     bar.value = percentage;
 }
 
+const percentageOfUsersReady = (users) => {
+    users = users.filter(filterOnlineUsers);
+    let total = users.length;
+    let count = 0;
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].lobby_ready === true) {
+            count++;
+        }
+    }
+    if (count === 0) {
+        return 0;
+    }
+    return (count / total) * 100;
+}
+
 const fetchRemoveUser = async (game_key, user_id) => {
     const response = await fetch(`http://localhost:5000/api/games/${game_key}/remove_user/${user_id}`, {
         method: 'PUT',
@@ -31,4 +46,4 @@ const removeUserFromLobby = async (game_key, user_id, user_labels) => {
     }
 }
 
-export { filterOnlineUsers, findUserLabelById, updateProgressBar, removeUserFromLobby };
+export { filterOnlineUsers, findUserLabelById, updateProgressBar, removeUserFromLobby, percentageOfUsersReady };

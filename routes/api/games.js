@@ -26,12 +26,7 @@ const checkForAddOn = (cur_users, new_user) => {
 }
 
 const filterOnlineUsers = (user) => user.in_game === true;
-
-const findUserById = (id) => {
-    return (user_el) => {
-        return user_el.id === id;
-    }
-}
+const findUserById = (id) => (user_el) => user_el.id === id;
 
 router.get('/:key', async (req, res) => {
     try {
@@ -127,7 +122,6 @@ router.put('/lock_game/:key', async (req, res) => {
 router.put('/:key/update_subject/:subject', async (req, res) => {
     try {
         const game = await Game.findOne({key: req.params.key});
-
         game.subject = req.params.subject;
         await game.save();
         res.json(game.subject);

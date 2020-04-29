@@ -31,17 +31,6 @@ const fetchAddUser = async (name) => {
     return new_user;
 }
 
-const fetchAllUsers = async () => {
-    const users = await fetch(`http://localhost:5000/api/games/${game_key}/get_users`, {
-        method: 'GET'
-    }).then(function(response) {
-        return response.json();
-    }).then(function(data) {
-        return data;
-    });
-    return users;
-}
-
 const fetchSetUserReady = async (user_id) => {
     const game = await fetch(`http://localhost:5000/api/games/${game_key}/set_user_ready/${user_id}`, {
         method: 'PUT',
@@ -80,7 +69,6 @@ socket.on('user_joined', async () => {
     /* Add labels for users already in the game */
     const game = await fetchGetGame();
     let users = game.users.filter(filterOnlineUsers);
-    
     users.forEach(user => new UserLabel(user._id, user.name, false, user.lobby_ready));
 
     /* Add new user to the game */
@@ -94,10 +82,10 @@ socket.on('user_joined', async () => {
 
     /* Update subject */
     game_subject = document.getElementById('game_subject');
+    game_subject.value = game.subject;
     game_subject.addEventListener('change', async (e) => {
         const value = e.target.value;
-        const subject = await fetchUpdateSubject(value);
-
+        await fetchUpdateSubject(value);
         socket.emit('subject_changed', value, game_key);
     });
 
@@ -121,17 +109,15 @@ socket.on('user_ready', (user_id, percentage) => {
 });
 
 socket.on('game_started', async () => {
-    const users = await fetchAllUsers();
+    const game = await fetchGetGame();
 
-    setupGamePage(users);
+    setupGamePage(game);
     setupChatForm(socket);
 });
 
 socket.on('message', (message) => {
     spawnMessage(message);
 });
-
-// const findUserLabelById = (id) => (user) => user.id === id;
 
 socket.on('user_disconnect', (user_id) => {
 

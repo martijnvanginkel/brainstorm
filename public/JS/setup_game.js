@@ -1,4 +1,5 @@
-import { formatMessage } from './messages.js'
+import { formatMessage } from './messages.js';
+import { filterOnlineUsers } from './lobby_utils.js';
 
 const removeLobby = () => {
     const lobby = document.getElementById('lobby_container');
@@ -39,7 +40,7 @@ const setupChatForm = (socket) => {
     return form;
 }
 
-const createGameLayout = () => {
+const createGameLayout = (game) => {
     const body = document.querySelector('body');
     const container = document.createElement('div');
     const player_tags = document.createElement('div');
@@ -50,7 +51,7 @@ const createGameLayout = () => {
     player_tags.id = 'player_tags';
     play_area.id = 'play_area';
     circle.id = 'circle_button';
-    // circle.innerHTML = `${subject}`;
+    circle.innerHTML = `${game.subject}`;
 
     body.append(container);
     container.append(player_tags);
@@ -58,11 +59,11 @@ const createGameLayout = () => {
     play_area.append(circle);
 }
 
-const setupGamePage = (users) => {
-    // const users = game.users.filter(filterOnlineUsers);
+const setupGamePage = (game) => {
+    const users = game.users.filter(filterOnlineUsers);
 
     removeLobby();
-    createGameLayout();
+    createGameLayout(game);
     insertPlayerLabels(users);
 }
 
