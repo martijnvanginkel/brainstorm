@@ -44,7 +44,8 @@ router.get('/:key', async (req, res) => {
 
 router.post('/new', async (req, res) => {
     const game = new Game({
-        key: generateRandomKey()
+        key: generateRandomKey(),
+        open: true
     });
     try {
         const new_game = await game.save();
@@ -101,6 +102,7 @@ router.put('/:key/remove_user/:user_id', async (req, res) => {
         const user = game.users.find(findUserById(req.params.user_id))
         user.in_game = false;
         await game.save();
+        // console.log(game.users);
         res.json(game);
     } catch (error) {
         res.status(500).json({ message: error.message })

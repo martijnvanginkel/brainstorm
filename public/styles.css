@@ -165,6 +165,7 @@ body {
 
 #play_area {
     flex-grow: 1;
+    position: relative;
 }
 
 #player_tags {

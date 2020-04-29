@@ -30,10 +30,9 @@ const createNewGame = async () => {
     return response;
 }
 
-const showMessage = (text, color) => {
+const showMessage = (text) => {
     index_message.innerHTML = text;
     index_message.className = '';
-    index_message.classList.add(`${color}`);
     setTimeout(() => index_message.classList.add('hide_element'), 1000); 
 }
 
@@ -41,7 +40,7 @@ const copyKey = () => {
     game_key_input.select();
     game_key_input.setSelectionRange(0, 99999)
     document.execCommand("copy");
-    showMessage('Link copied to clipboard.', 'green');
+    showMessage('Link copied to clipboard.');
 }
 
 const addNameForm = (new_game) => {
@@ -62,7 +61,7 @@ const addNameForm = (new_game) => {
     form.addEventListener('submit', (e) => {
         if (name_field.value === '') {
             e.preventDefault();
-            showMessage('You need a name you silly', 'yellow');
+            showMessage('You need a name you');
             name_field.value = generateRandomName();
         }
     });
@@ -81,7 +80,7 @@ const removeNameForm = () => {
 
 copy_key_btn.addEventListener('click', () => {
     if (game_key_input.value === '') {
-        showMessage('Nothing to be copied', 'yellow');
+        showMessage('Nothing to be copied');
     }
     else {
         copyKey();
@@ -94,14 +93,22 @@ game_key_input.addEventListener('dblclick', (e) => {
     }
 });
 
+const filterOnlineUsers = (user) => user.in_game === true;
+
 join_btn.addEventListener('click', async () => {
     if (game_key_input.value === '') {
-        showMessage('You need a key to join a game', 'yellow');
+        showMessage('You need a key to join a game');
         return ;
     }
     const new_game = await checkForValidGame(game_key_input.value);
-    if (new_game === null) {
-        showMessage('Not a valid key', 'yellow');
+    if (new_game === null || new_game.open === false) {
+        showMessage('Not a valid key');
+        removeNameForm();
+        return ;
+    }
+    const online_users = new_game.users.filter(filterOnlineUsers);
+    if (online_users.length > 5) {
+        showMessage('The lobby is too full');
         removeNameForm();
         return ;
     }

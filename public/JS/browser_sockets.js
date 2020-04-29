@@ -105,7 +105,7 @@ socket.on('game_started', async () => {
 });
 
 socket.on('message', (message) => {
-    console.log(message);
+    // console.log(message);
     spawnMessage(message);
 });
 
