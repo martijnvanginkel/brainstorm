@@ -1,4 +1,5 @@
 import generateRandomName from './generate_name.js';
+import { filterOnlineUsers } from './lobby_utils.js'
 
 const create_btn = document.getElementById('create_game_btn');
 const join_btn = document.getElementById('join_game_btn');
@@ -93,12 +94,6 @@ game_key_input.addEventListener('dblclick', (e) => {
     }
 });
 
-const filterOnlineUsers = (user) => {
-    if (user.in_game == true) {
-        return user;
-    }
-}
-
 join_btn.addEventListener('click', async () => {
     if (game_key_input.value === '') {
         showMessage('You need a key to join a game');
@@ -127,5 +122,6 @@ create_btn.addEventListener('click', async () => {
     copyKey();
     removeNameForm();
 });
+
 
 

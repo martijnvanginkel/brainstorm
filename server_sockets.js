@@ -13,7 +13,7 @@ const on_connection = (socket, io) => {
     socket.emit('user_joined'); // Emit to single client thats connecting
 
     socket.on('initialize_user', (new_user, key, percentage) => {
-        this_user.id = new_user._id
+        this_user.id = new_user._id;
         this_user.name = new_user.name;
         game_key = key;
         socket.join(key);
@@ -28,7 +28,6 @@ const on_connection = (socket, io) => {
         socket.broadcast.to(game_key).emit('user_ready', user_id, percentage);
 
         if (percentage === 100) {
-            console.log(subject);
             await fetch(`http://localhost:5000/api/games/lock_game/${game_key}`, {
                 method: 'PUT',
                 body: {}
@@ -37,14 +36,13 @@ const on_connection = (socket, io) => {
             }).then(function(data) {
                 return data;
             });
-
             io.to(game_key).emit('game_started');
         }
     });
 
     socket.on('message', (message) => {
         io.to(game_key).emit('message', message);
-    })
+    });
 
     socket.on('disconnect', async () => {
         const game = await fetch(`http://localhost:5000/api/games/${game_key}/remove_user/${this_user.id}`, {
@@ -55,8 +53,7 @@ const on_connection = (socket, io) => {
         }).then(function(data) {
             return data;
         });
-        console.log(game);
-        io.to(game_key).emit('user_disconnect', this_user.id); // Let everyone know
+        io.to(game_key).emit('user_disconnect', this_user.id);
     });
 }
 

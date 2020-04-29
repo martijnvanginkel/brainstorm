@@ -99,19 +99,13 @@ router.put('/:key/set_user_ready/:user_id', async (req, res) => {
 router.put('/:key/remove_user/:user_id', async (req, res) => {
     try {
         const game = await Game.findOne({key: req.params.key});
-
         const users = game.users;
         users.forEach((user) => {
             user.lobby_ready = false;
             if (user.id == req.params.user_id) {
                 user.in_game = false;
             }
-            // console.log(user);
-        })
-
-        // const user = game.users.find(findUserById(req.params.user_id))
-        // user.in_game = false;
-
+        });
         await game.save();
         res.json(game);
     } catch (error) {
@@ -122,7 +116,6 @@ router.put('/:key/remove_user/:user_id', async (req, res) => {
 router.put('/lock_game/:key', async (req, res) => {
     try {
         const game = await Game.findOne({key: req.params.key});
-
         game.open = false;
         await game.save();
         res.json(game);
