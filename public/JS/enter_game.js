@@ -1,4 +1,4 @@
-import generateRandomName from './generate_name.js'
+import generateRandomName from './generate_name.js';
 
 const create_btn = document.getElementById('create_game_btn');
 const join_btn = document.getElementById('join_game_btn');
@@ -93,7 +93,11 @@ game_key_input.addEventListener('dblclick', (e) => {
     }
 });
 
-const filterOnlineUsers = (user) => user.in_game === true;
+const filterOnlineUsers = (user) => {
+    if (user.in_game == true) {
+        return user;
+    }
+}
 
 join_btn.addEventListener('click', async () => {
     if (game_key_input.value === '') {
@@ -123,4 +127,5 @@ create_btn.addEventListener('click', async () => {
     copyKey();
     removeNameForm();
 });
+
 

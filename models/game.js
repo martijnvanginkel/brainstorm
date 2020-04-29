@@ -8,6 +8,9 @@ const game_schema = new mongoose.Schema({
     open: {
         type: Boolean
     },
+    subject: {
+        type: String
+    },
     users: [User.schema]
 });
 

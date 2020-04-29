@@ -45,7 +45,8 @@ router.get('/:key', async (req, res) => {
 router.post('/new', async (req, res) => {
     const game = new Game({
         key: generateRandomKey(),
-        open: true
+        open: true,
+        subject: ""
     });
     try {
         const new_game = await game.save();
@@ -99,10 +100,19 @@ router.put('/:key/remove_user/:user_id', async (req, res) => {
     try {
         const game = await Game.findOne({key: req.params.key});
 
-        const user = game.users.find(findUserById(req.params.user_id))
-        user.in_game = false;
+        const users = game.users;
+        users.forEach((user) => {
+            user.lobby_ready = false;
+            if (user.id == req.params.user_id) {
+                user.in_game = false;
+            }
+            // console.log(user);
+        })
+
+        // const user = game.users.find(findUserById(req.params.user_id))
+        // user.in_game = false;
+
         await game.save();
-        // console.log(game.users);
         res.json(game);
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -116,6 +126,18 @@ router.put('/lock_game/:key', async (req, res) => {
         game.open = false;
         await game.save();
         res.json(game);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+});
+
+router.put('/:key/update_subject/:subject', async (req, res) => {
+    try {
+        const game = await Game.findOne({key: req.params.key});
+
+        game.subject = req.params.subject;
+        await game.save();
+        res.json(game.subject);
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

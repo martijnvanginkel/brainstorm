@@ -22,7 +22,7 @@ const setupChatForm = (socket) => {
 
     form.id = 'chat_form';
     form.innerHTML = `
-        <input id="text_field" type="text" required>
+        <input id="text_field" type="text" autocomplete="off" required>
         <button class="button is-light">Send</button>
     `;
     container.append(form);
@@ -44,16 +44,23 @@ const createGameLayout = () => {
     const container = document.createElement('div');
     const player_tags = document.createElement('div');
     const play_area = document.createElement('div');
+    const circle = document.createElement('div');
 
     container.className = 'game_container';
     player_tags.id = 'player_tags';
     play_area.id = 'play_area';
+    circle.id = 'circle_button';
+    // circle.innerHTML = `${subject}`;
+
     body.append(container);
     container.append(player_tags);
     container.append(play_area);
+    play_area.append(circle);
 }
 
 const setupGamePage = (users) => {
+    // const users = game.users.filter(filterOnlineUsers);
+
     removeLobby();
     createGameLayout();
     insertPlayerLabels(users);

@@ -30,7 +30,6 @@ const spawnMessage = (message) => {
     `);
 
     area.append(element);
-
 }
 
 export { formatMessage, spawnMessage }
