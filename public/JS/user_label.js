@@ -20,12 +20,11 @@ class UserLabel {
         ready_btn.addEventListener('click', async (e) => {
             const game = await fetchSetUserReady(this.id);
             const percentage = percentageOfUsersReady(game.users);
-            const subject = document.getElementById('game_subject').value;
 
             e.target.disabled = true;
             e.target.className = 'disable_hover';
             e.target.parentElement.classList.add('ready_joined_user');
-            userPressedReady(this.id, percentage, subject);
+            userPressedReady(this.id, percentage);
         })
         user_element.append(ready_btn);
     }

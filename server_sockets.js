@@ -24,7 +24,7 @@ const on_connection = (socket, io) => {
         socket.broadcast.to(key).emit('subject_changed', subject);
     });
 
-    socket.on('user_pressed_ready', async (user_id, percentage, subject) => {
+    socket.on('user_pressed_ready', async (user_id, percentage) => {
         socket.broadcast.to(game_key).emit('user_ready', user_id, percentage);
 
         if (percentage === 100) {

@@ -55,9 +55,9 @@ const fetchUpdateSubject = async (subject) => {
     return game;
 }
 
-const userPressedReady = (user_id, percentage, subject) => {
+const userPressedReady = (user_id, percentage) => {
     updateProgressBar(percentage);
-    socket.emit('user_pressed_ready', user_id, percentage, subject);
+    socket.emit('user_pressed_ready', user_id, percentage);
 }
 
 /* This only gets called for the player itself */
