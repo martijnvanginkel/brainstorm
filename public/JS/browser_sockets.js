@@ -182,14 +182,22 @@ socket.on('user_disconnect', async (user_id) => {
     // console.log(user);
     // user.removeElement();
     // user_labels.splice(0, 1);
-    
+
+    console.log(user_labels)
+
     for (let i = 0; i < user_labels.length; i++) {
         if (user_labels[i].id == user.id) {
             await fetchRemoveUser(user.id);
             user_labels[i].removeElement();
             user_labels.splice(i, 1);
-            continue;
+            break;
         }
+        
+    }
+    console.log(user_labels)
+
+    
+    for (let i = 0; i < user_labels.length; i++) {
         user_labels[i].setUserUnready();
     }
     
