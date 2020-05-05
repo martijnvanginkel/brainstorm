@@ -1,4 +1,4 @@
-import generateRandomName from './generate_name.js';
+import { generateRandomName } from './generate_name.js';
 import { filterOnlineUsers } from './lobby_utils.js'
 
 const create_btn = document.getElementById('create_game_btn');

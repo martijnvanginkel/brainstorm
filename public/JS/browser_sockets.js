@@ -1,7 +1,7 @@
-import { UserLabel, user_labels, percentageOfUsersReady } from './user_label.js';
+import { UserLabel, user_labels } from './user_label.js';
 import { setupGamePage, setupChatForm } from './setup_game.js';
 import { spawnWord } from './word_controller.js';
-import { filterOnlineUsers, findUserLabelById, updateProgressBar, removeUserFromLobby } from './lobby_utils.js';
+import { filterOnlineUsers, findUserLabelById, updateProgressBar, removeUserFromLobby, percentageOfUsersReady } from './lobby_utils.js';
 
 const socket = io();
 

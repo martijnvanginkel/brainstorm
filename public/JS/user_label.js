@@ -1,9 +1,9 @@
 import { fetchSetUserReady, userPressedReady } from './browser_sockets.js';
 import { percentageOfUsersReady } from './lobby_utils.js';
 
-const user_labels = [];
+export const user_labels = [];
 
-class UserLabel {
+export class UserLabel {
     constructor(id, name, is_me, lobby_ready) {
         this.id = id;
         this.name = name;
@@ -80,5 +80,3 @@ class UserLabel {
         this.element.remove();
     }
 }
-
-export { UserLabel, user_labels, percentageOfUsersReady }

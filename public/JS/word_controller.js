@@ -14,6 +14,20 @@ export const formatWord = (word) => {
     }
 }
 
+const onMouseDown = (e) => {
+    
+    window.addEventListener('mousemove', moveMouse);
+    window.addEventListener('mouseup', mouseUp);
+
+    const moveMouse = (e) => {
+
+    }
+
+    const mouseUp = () => {
+
+    }
+}
+
 export const spawnWord = async (word) => {
     const area = document.getElementById('play_area');
     const element = document.createElement('span');
@@ -26,5 +40,10 @@ export const spawnWord = async (word) => {
         top: ${word.top}%;
         background-color: red;
     `);
+    element.addEventListener('mousedown', onMouseDown);
+
+
     area.append(element);
 }
+
+
