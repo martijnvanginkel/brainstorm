@@ -3,33 +3,28 @@ const randomNumber = (min, max) => {
 }
 
 /* Keep track of all the messages in an array */
-const all_messages = [];
+const all_words = [];
 
-const left_array = [0, 100, randomNumber(0, 100)];
-const top_array = [0, 100, randomNumber(0, 100)];
-
-const formatMessage = (message) => {
+export const formatWord = (word) => {
     return {
-        message,
+        id: word._id,
+        value: word.value,
         top: randomNumber(0, 100),
         left: randomNumber(0, 100)
     }
 }
 
-const spawnMessage = (message) => {
+export const spawnWord = async (word) => {
     const area = document.getElementById('play_area');
     const element = document.createElement('span');
 
-    all_messages.push(message);
-    element.innerHTML = `${message.message}`;
+    all_words.push(word);
+    element.innerHTML = `${word.value}`;
     element.setAttribute("style", `
         position: absolute; 
-        left: ${message.left}%;
-        top: ${message.top}%;
+        left: ${word.left}%;
+        top: ${word.top}%;
         background-color: red;
     `);
-
     area.append(element);
 }
-
-export { formatMessage, spawnMessage }

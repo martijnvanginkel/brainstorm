@@ -40,8 +40,8 @@ const on_connection = (socket, io) => {
         }
     });
 
-    socket.on('message', (message) => {
-        io.to(game_key).emit('message', message);
+    socket.on('word_pushed', (word) => {
+        io.to(game_key).emit('word_pushed', word);
     });
 
     socket.on('disconnect', async () => {

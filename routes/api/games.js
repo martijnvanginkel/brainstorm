@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Game = require('./../../models/game');
 const User = require('./../../models/user');
+const Word = require('./../../models/word');
 
 const generateRandomKey = () => {
     let key_code = '';
@@ -128,6 +129,20 @@ router.put('/:key/update_subject/:subject', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
+});
+
+router.put('/:key/new_word/:word', async (req, res) => {
+    try {
+        const game = await Game.findOne({key: req.params.key});
+        const word = new Word({
+            value: req.params.word
+        });
+        game.words.push(word);
+        await game.save();
+        res.json(word);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    } 
 });
 
 module.exports = router;

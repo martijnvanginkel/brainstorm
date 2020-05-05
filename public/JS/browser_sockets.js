@@ -1,6 +1,6 @@
 import { UserLabel, user_labels, percentageOfUsersReady } from './user_label.js';
 import { setupGamePage, setupChatForm } from './setup_game.js';
-import { spawnMessage } from './messages.js';
+import { spawnWord } from './word_controller.js';
 import { filterOnlineUsers, findUserLabelById, updateProgressBar, removeUserFromLobby } from './lobby_utils.js';
 
 const socket = io();
@@ -53,6 +53,18 @@ const fetchUpdateSubject = async (subject) => {
         return data;
     });
     return game;
+}
+
+const fetchNewWord = async (word) => {
+    const new_word = await fetch(`http://localhost:5000/api/games/${game_key}/new_word/${word}`, {
+        method: 'PUT',
+        body: {}
+    }).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        return data;
+    });
+    return new_word;
 }
 
 const userPressedReady = (user_id, percentage) => {
@@ -115,8 +127,8 @@ socket.on('game_started', async () => {
     setupChatForm(socket);
 });
 
-socket.on('message', (message) => {
-    spawnMessage(message);
+socket.on('word_pushed', (word) => {
+    spawnWord(word);
 });
 
 socket.on('user_disconnect', (user_id) => {
@@ -127,4 +139,4 @@ socket.on('user_disconnect', (user_id) => {
     updateProgressBar(0);
 });
 
-export { fetchSetUserReady, userPressedReady }
+export { fetchSetUserReady, userPressedReady, fetchNewWord }

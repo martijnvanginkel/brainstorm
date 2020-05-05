@@ -1,5 +1,6 @@
-import { formatMessage } from './messages.js';
+import { formatWord } from './word_controller.js';
 import { filterOnlineUsers } from './lobby_utils.js';
+import { fetchNewWord } from './browser_sockets.js';
 
 const removeLobby = () => {
     const lobby = document.getElementById('lobby_container');
@@ -23,16 +24,17 @@ const setupChatForm = (socket) => {
 
     form.id = 'chat_form';
     form.innerHTML = `
-        <input id="text_field" type="text" autocomplete="off" required>
+        <input id="text_field" type="text" autocomplete="off" autofocus required>
         <button class="button is-light">Send</button>
     `;
     container.append(form);
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const message = e.target.elements.text_field.value;
-        socket.emit('message', formatMessage(message));
+        const text_field_value = e.target.elements.text_field.value;
+        const new_word = await fetchNewWord(text_field_value);
+        socket.emit('word_pushed', formatWord(new_word));
 
         e.target.elements.text_field.value = '';
         e.target.elements.text_field.focus();
