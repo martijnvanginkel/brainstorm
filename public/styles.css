@@ -169,7 +169,8 @@ body {
 
 #play_area {
     flex-grow: 1;
-    position: relative;
+    background-color: lightpink;
+    /* position: relative; */
 }
 
 #player_tags {

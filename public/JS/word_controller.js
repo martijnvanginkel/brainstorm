@@ -16,52 +16,44 @@ export const formatWord = (word) => {
     }
 }
 
-const onMouseDown = (el) => {
+let el = null;
+
+const onMouseDown = (e) => {
 
     window.addEventListener('mousemove', mouseMove);
     window.addEventListener('mouseup', mouseUp);
 
-    const element = all_words.find(findWordById(el.target.getAttribute('word_id')));
-    // console.log(element);
+    let prev_x = e.clientX;
+    let prev_y = e.clientY;
 
-    // let prev_y = el.clientY;
-    
-    // const start_top = element.top;
-    // const start_left = element.left;
+    function mouseMove(e) {
+        let new_x = prev_x - e.clientX;
+        let new_y = prev_y - e.clientY;
 
-    // const parent_height = el.target.parentElement.clientHeight;
-    // const parent_width = el.target.parentElement.clientWidth;
+        const rect = el.getBoundingClientRect();
 
-    // console.log(parent_height);
-    // console.log(start_top)
+        el.style.left = rect.left - new_x + "px";
+        el.style.top = rect.top - new_y + "px";
 
-    // console.log(el.target);
-    // console.log(el.target.parentElement.clientWidth);
-    // console.log(el.target.parentElement.clientHeight);
-
-    // console.log(el);
-
-    const parent = el.target.parentElement.getBoundingClientRect();
-
-    function mouseMove (e) {
-        let cur_x = e.clientX;
-        let cur_y = e.clientY;
-
-
-        // console.log(parent)
-        let new_x = (cur_x / parent.width) * 100;
-        let new_y = (cur_y / parent.height) * 100;
-
-
-        el.target.style.left = `${new_x}%`;
-        el.target.style.top = `${new_y}%`;
-        console.log(new_x, new_y)
-        // console.log(element);
-        // console.log(e.target);
-        // console.log(e.target.style.left);
-
-
+        prev_x = e.clientX;
+        prev_y = e.clientY;
     }
+    // const parent = el.target.parentElement.getBoundingClientRect();
+
+    // function mouseMove (e) {
+    //     let cur_x = e.clientX;
+    //     let cur_y = e.clientY;
+
+    //     let new_x = cur_x / parent.width;
+    //     let new_y = cur_y / parent.height;
+
+
+
+    //     el.target.style.left = `${new_x * 100}%`;
+    //     el.target.style.top = `${new_y * 100}%`;
+    //     console.log(new_x, new_y)
+
+    // }
 
     function mouseUp () {
         window.removeEventListener('mousemove', mouseMove);
@@ -78,10 +70,11 @@ export const spawnWord = async (word) => {
     element.setAttribute("word_id", `${word.id}`);
     element.setAttribute("style", `
         position: absolute; 
-        left: ${word.left}%;
-        top: ${word.top}%;
+        left: 0px;
+        top: 0px;
         background-color: red;
     `);
+    el = element;
     element.addEventListener('mousedown', onMouseDown);
     area.append(element);
 }
